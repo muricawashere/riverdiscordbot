@@ -47,7 +47,8 @@ bot.on('message', async message => {
             var searchString = args.join(' ')
             var opts = {
                 maxResults: 1,
-                key: 'AIzaSyAYGlod1nt7f-sfm7AWKqRoKnSwWh8TkaA'
+                key: 'AIzaSyAYGlod1nt7f-sfm7AWKqRoKnSwWh8TkaA',
+                type: 'video'
             }
             console.log(searchString)
             search(searchString, opts, function(err, results) {
