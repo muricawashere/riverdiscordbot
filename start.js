@@ -49,6 +49,7 @@ bot.on('message', async message => {
                 maxResults: 10,
                 key: 'AIzaSyAYGlod1nt7f-sfm7AWKqRoKnSwWh8TkaA'
             }
+            console.log(searchString)
             search(searchString, opts, function(err, results) {
                 if(err) return console.log(err)
                 
