@@ -46,14 +46,26 @@ bot.on('message', async message => {
         } else {
             var searchString = args.join(' ')
             var opts = {
-                maxResults: 10,
+                maxResults: 1,
                 key: 'AIzaSyAYGlod1nt7f-sfm7AWKqRoKnSwWh8TkaA'
             }
             console.log(searchString)
             search(searchString, opts, function(err, results) {
                 if(err) return console.log(err)
-                
+                var videoURL = results[0].link
                 console.log(results)
+                var voiceChannel = message.member.voiceChannel
+                voiceChannel.join().then(connection => {
+                    console.log('Joined the channel')
+                    var stream = ytdl(videoURL, {filter: 'audioonly'})
+                    var dispatcher = connection.playStream(stream, streamOptions)
+                    dispatcher.on('end', end => {
+                        console.log('left channel')
+                        voiceChannel.leave()
+                    })
+                }).catch(err => {
+                    console.error(err)
+                })
             })
         }
     }
