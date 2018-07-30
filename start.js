@@ -29,7 +29,7 @@ bot.on('message', async message => {
 
         console.log(isURL(videoURL))
 
-        if(isURL(videoURL)) {
+        if(isURL(videoURL) === true) {
             var voiceChannel = message.member.voiceChannel
 
             voiceChannel.join().then(connection => {
