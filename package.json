@@ -1,0 +1,17 @@
+{
+  "name": "river-discord",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^11.3.2",
+    "ffmpeg": "0.0.4",
+    "google-auth-library": "^1.6.1",
+    "googleapis": "^32.0.0",
+    "node-opus": "^0.3.0",
+    "opusscript": "0.0.6",
+    "readline": "^1.3.0",
+    "youtube-search": "^1.1.1",
+    "ytdl-core": "^0.21.1"
+  }
+}
