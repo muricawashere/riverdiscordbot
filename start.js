@@ -5,9 +5,8 @@ const botSettings = require('./settings.json')
 const prefix = botSettings.prefix
 const request = require('request')
 const bot = new Discord.Client({disabledEveryone: true})
-const youtubeVidSearch = require('youtube-search')
-
 const streamOptions = {seek:0,volume:1}
+var search = require('youtube-search')
 
 bot.on('ready', async() => {
     console.log('Bot is ready')
@@ -33,10 +32,6 @@ bot.on('message', async message => {
         if(isURL(videoURL)) {
             var voiceChannel = message.member.voiceChannel
 
-            request(`http://gdata.youtube.com/feeds/api/videos/PT2_F-1esPk?v=2&alt=jsonc`, function(error, response, body) {
-                console.log(JSON.parse(body))
-            })
-
             voiceChannel.join().then(connection => {
                 console.log('Joined the channel')
                 var stream = ytdl(videoURL, {filter: 'audioonly'})
@@ -49,9 +44,19 @@ bot.on('message', async message => {
                 console.error(err)
             })
         } else {
-
+            var searchString = args.join(' ')
+            var opts = {
+                maxResults: 10,
+                key: 'AIzaSyAYGlod1nt7f-sfm7AWKqRoKnSwWh8TkaA'
+            }
+            search(searchString, opts, function(err, results) {
+                if(err) return console.log(err)
+                
+                console.log(results)
+            })
         }
     }
+
 })
 
 bot.login(botSettings.token)
