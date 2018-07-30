@@ -3,6 +3,7 @@ const fs = require('fs')
 const ytdl = require('ytdl-core')
 const botSettings = require('./settings.json')
 const prefix = botSettings.prefix
+const request = require('request')
 const bot = new Discord.Client({disabledEveryone: true})
 const youtubeVidSearch = require('youtube-search')
 
@@ -28,20 +29,28 @@ bot.on('message', async message => {
         console.log(videoURL)
 
         console.log(isURL(videoURL))
-        
-        var voiceChannel = message.member.voiceChannel
 
-        voiceChannel.join().then(connection => {
-            console.log('Joined the channel')
-            var stream = ytdl(videoURL, {filter: 'audioonly'})
-            var dispatcher = connection.playStream(stream, streamOptions)
-            dispatcher.on('end', end => {
-                console.log('left channel')
-                voiceChannel.leave()
+        if(isURL(videoURL)) {
+            var voiceChannel = message.member.voiceChannel
+
+            request(`http://gdata.youtube.com/feeds/api/videos/PT2_F-1esPk?v=2&alt=jsonc`, function(error, response, body) {
+                console.log(JSON.parse(body))
             })
-        }).catch(err => {
-            console.error(err)
-        })
+
+            voiceChannel.join().then(connection => {
+                console.log('Joined the channel')
+                var stream = ytdl(videoURL, {filter: 'audioonly'})
+                var dispatcher = connection.playStream(stream, streamOptions)
+                dispatcher.on('end', end => {
+                    console.log('left channel')
+                    voiceChannel.leave()
+                })
+            }).catch(err => {
+                console.error(err)
+            })
+        } else {
+
+        }
     }
 })
 
